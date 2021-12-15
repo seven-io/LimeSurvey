@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <metadata>
+        <name>sms77</name>
+        <type>plugin</type>
+        <creationDate>2021-12-16</creationDate>
+        <lastUpdate>2021-12-16</lastUpdate>
+        <author>sms77 e.K.</author>
+        <authorUrl>https://www.sms77.io/</authorUrl>
+        <authorEmail>support@sms77.io</authorEmail>
+        <supportUrl>https://www.sms77.io/</supportUrl>
+        <version>1.0.0</version>
+        <license>MIT</license>
+        <description><![CDATA[Send SMS via sms77]]></description>
+    </metadata>
+    <compatibility>
+        <version>5.0</version>
+    </compatibility>
+    <updaters>
+        <updater disabled="disabled">
+            <stable>1</stable>
+            <type>rest</type>
+            <source>https://github.com/sms77io/LimeSurvey</source>
+            <manualUpdateUrl>https://github.com/sms77io/LimeSurvey</manualUpdateUrl>
+        </updater>
+    </updaters>
+</config>
