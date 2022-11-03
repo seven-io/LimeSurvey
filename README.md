@@ -9,7 +9,7 @@ This plugin adds the possibility to send SMS for survey invitations and reminder
 
 ## Installation
 
-1. Download the [latest release](https://github.com/sms77io/LimeSurvey/releases/latest/download/sms77-limesurvey-latest.zip)
+1. Download the [latest release](https://github.com/seven-io/LimeSurvey/releases/latest/download/sms77-limesurvey-latest.zip)
 2. Extract the archive to `/path/to/limesurvey/plugins`
 3. Login to the administration, go to `Configuration -> Plugins` and activate the plugin
 4. Click on `sms77`, go to `Settings`, configure it to your needs and click `Save`

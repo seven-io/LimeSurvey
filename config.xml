@@ -20,8 +20,8 @@
         <updater disabled="disabled">
             <stable>1</stable>
             <type>rest</type>
-            <source>https://github.com/sms77io/LimeSurvey</source>
-            <manualUpdateUrl>https://github.com/sms77io/LimeSurvey</manualUpdateUrl>
+            <source>https://github.com/seven-io/LimeSurvey</source>
+            <manualUpdateUrl>https://github.com/seven-io/LimeSurvey</manualUpdateUrl>
         </updater>
     </updaters>
 </config>
