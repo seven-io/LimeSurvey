@@ -61,6 +61,12 @@ class sms77 extends PluginBase {
             'htmlOptions' => ['maxlength' => 100],
             'type' => 'string',
         ],
+        'performance_tracking' => [
+            'default' => 0,
+            'help' => 'Enable Performance Tracking for URLs found in the message text.',
+            'label' => 'Performance Tracking',
+            'type' => 'boolean',
+        ],
         'text' => [
             'default' => 'Dear {FIRSTNAME} {LASTNAME},' . PHP_EOL
                 . 'we invite you to participate in the survey below:' . PHP_EOL
@@ -159,7 +165,8 @@ class sms77 extends PluginBase {
 
         $text = $this->buildMessage($tokenData, $surveyId);
 
-        if (100 !== $this->sms(compact('text', 'to'))) {
+        $res = $this->sms(compact('text', 'to'));
+        if (100 !== $res) {
             echo $this->gT('SMS not sent. Please contact an administrator.');
             exit;
         }
@@ -181,6 +188,11 @@ class sms77 extends PluginBase {
             exit;
         }
 
+        exit(var_dump($_REQUEST));
+
+        $flash = $this->get('flash');
+        if (!empty($flash)) $payload['flash'] = $flash;
+
         $foreignId = $this->get('foreign_id');
         if (!empty($foreignId)) $payload['foreign_id'] = $foreignId;
 
@@ -189,6 +201,9 @@ class sms77 extends PluginBase {
 
         $label = $this->get('label');
         if (!empty($label)) $payload['label'] = $label;
+
+        $performanceTracking = $this->get('performance_tracking');
+        if (!empty($label)) $payload['performance_tracking'] = $performanceTracking;
 
         $curlHandle = curl_init('https://gateway.sms77.io/api/sms');
         $options = [
@@ -231,6 +246,7 @@ class sms77 extends PluginBase {
             'foreign_id',
             'from',
             'label',
+            'performance_tracking',
             'text',
         ];
         foreach ($keys as $key) $settings[$key]['current'] = $this->get(
