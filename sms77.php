@@ -40,6 +40,13 @@ class sms77 extends PluginBase {
             'label' => 'Flash',
             'type' => 'boolean',
         ],
+        'foreign_id' => [
+            'default' => '',
+            'help' => 'Optional foreign identifier returned in DLR callbacks',
+            'label' => 'Foreign ID',
+            'htmlOptions' => ['maxlength' => 64],
+            'type' => 'string',
+        ],
         'from' => [
             'default' => '',
             'help' => 'Value displayed as the SMS sender',
@@ -174,6 +181,9 @@ class sms77 extends PluginBase {
             exit;
         }
 
+        $foreignId = $this->get('foreign_id');
+        if (!empty($foreignId)) $payload['foreign_id'] = $foreignId;
+
         $from = $this->get('from');
         if (!empty($from)) $payload['from'] = $from;
 
@@ -213,8 +223,17 @@ class sms77 extends PluginBase {
 
         unset($settings['enabled']['help']);
 
-        foreach (['attributeField', 'email', 'enabled', 'flash', 'from', 'label', 'text'] as $key)
-            $settings[$key]['current'] = $this->get(
+        $keys = [
+            'attributeField',
+            'email',
+            'enabled',
+            'flash',
+            'foreign_id',
+            'from',
+            'label',
+            'text',
+        ];
+        foreach ($keys as $key) $settings[$key]['current'] = $this->get(
                 $key,
                 'Survey',
                 $surveyId,
