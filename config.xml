@@ -4,12 +4,12 @@
         <name>sms77</name>
         <type>plugin</type>
         <creationDate>2021-12-16</creationDate>
-        <lastUpdate>2021-12-16</lastUpdate>
+        <lastUpdate>2022-11-09</lastUpdate>
         <author>sms77 e.K.</author>
         <authorUrl>https://www.sms77.io/</authorUrl>
         <authorEmail>support@sms77.io</authorEmail>
         <supportUrl>https://www.sms77.io/</supportUrl>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
         <license>MIT</license>
         <description><![CDATA[Send SMS via sms77]]></description>
     </metadata>

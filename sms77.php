@@ -188,8 +188,6 @@ class sms77 extends PluginBase {
             exit;
         }
 
-        exit(var_dump($_REQUEST));
-
         $flash = $this->get('flash');
         if (!empty($flash)) $payload['flash'] = $flash;
 
