@@ -47,6 +47,13 @@ class sms77 extends PluginBase {
             'htmlOptions' => ['maxlength' => 16],
             'type' => 'string',
         ],
+        'label' => [
+            'default' => '',
+            'help' => 'Optional label for your statistics',
+            'label' => 'Label',
+            'htmlOptions' => ['maxlength' => 100],
+            'type' => 'string',
+        ],
         'text' => [
             'default' => 'Dear {FIRSTNAME} {LASTNAME},' . PHP_EOL
                 . 'we invite you to participate in the survey below:' . PHP_EOL
@@ -170,6 +177,9 @@ class sms77 extends PluginBase {
         $from = $this->get('from');
         if (!empty($from)) $payload['from'] = $from;
 
+        $label = $this->get('label');
+        if (!empty($label)) $payload['label'] = $label;
+
         $curlHandle = curl_init('https://gateway.sms77.io/api/sms');
         $options = [
             CURLOPT_HTTPHEADER => [
@@ -203,7 +213,7 @@ class sms77 extends PluginBase {
 
         unset($settings['enabled']['help']);
 
-        foreach (['attributeField', 'email', 'enabled', 'flash', 'from', 'text'] as $key)
+        foreach (['attributeField', 'email', 'enabled', 'flash', 'from', 'label', 'text'] as $key)
             $settings[$key]['current'] = $this->get(
                 $key,
                 'Survey',
