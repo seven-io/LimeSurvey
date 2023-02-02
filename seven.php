@@ -1,11 +1,11 @@
 <?php
 
-class sms77 extends PluginBase {
-    static protected $description = 'Send SMS via sms77';
-    static protected $name = 'sms77';
+class seven extends PluginBase {
+    static protected $description = 'Send SMS via seven';
+    static protected $name = 'seven';
     protected $settings = [
         'apiKey' => [
-            'help' => 'Get yours @ https://app.sms77.io/developer',
+            'help' => 'Get yours @ https://app.seven.io/developer',
             'htmlOptions' => ['required' => 'required'],
             'label' => 'API Key',
             'type' => 'password',
@@ -81,21 +81,13 @@ class sms77 extends PluginBase {
     ];
     protected $storage = 'DbStorage';
 
-    /**
-     * @return void
-     */
-    public function init() {
+    public function init(): void {
         $this->subscribe('beforeSurveySettings');
         $this->subscribe('beforeTokenEmail');
         $this->subscribe('newSurveySettings');
     }
 
-    /**
-     * @param string $token
-     * @param string $surveyId
-     * @return string
-     */
-    private function buildSurveyLink($token, $surveyId) {
+    private function buildSurveyLink(string $token, string $surveyId): string {
         $protocol = 'http';
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') $protocol .= 's';
 
@@ -103,12 +95,7 @@ class sms77 extends PluginBase {
             . '/index.php/survey/index/sid/' . $surveyId . '/token/' . $token;
     }
 
-    /**
-     * @param array $tokenData
-     * @param string $surveyId
-     * @return string
-     */
-    private function buildMessage(array $tokenData, $surveyId) {
+    private function buildMessage(array $tokenData, string $surveyId): string {
         return str_replace(
             [
                 '{EMAIL}',
@@ -134,9 +121,8 @@ class sms77 extends PluginBase {
     /**
      * This function handles sending SMS messages
      * If it's an email invite, it doesn't interfere and keeps the settings as they are
-     * @return void
      */
-    public function beforeTokenEmail() {
+    public function beforeTokenEmail(): void {
         $event = $this->getEvent();
         if (!$event) return;
 
@@ -150,7 +136,7 @@ class sms77 extends PluginBase {
         $attributeField = $this->get('attributeField');
 
         if (!isset($tokenData[$attributeField])) {
-            echo $this->gT('sms77 plugin is enabled.')
+            echo $this->gT('seven plugin is enabled.')
                 . $this->gT('If you do not wish to send SMS invitations, disable it')
                 . $this->gT('If you intend to use it, the SMS was not sent.')
                 . $this->gT('Add an attribute with the phone number or "NA" for emails.');
@@ -173,18 +159,13 @@ class sms77 extends PluginBase {
     }
 
     /**
-     *  This function handles sending the http request.
-     *  Proxy settings should be configured.
-     *  The third argument (request_header) is optional
-     *  returns the response from the external page/API
-     * @param array $payload
-     * @return int
+     *  This function handles sending the http request. Proxy settings should be configured.
      */
-    private function sms(array $payload) {
+    private function sms(array $payload): int {
         $apiKey = $this->get('apiKey');
 
         if (!$apiKey) {
-            echo $this->gT('Can not send SMS because of missing sms77 API key.');
+            echo $this->gT('Can not send SMS because of missing seven API key.');
             exit;
         }
 
@@ -203,7 +184,7 @@ class sms77 extends PluginBase {
         $performanceTracking = $this->get('performance_tracking');
         if (!empty($label)) $payload['performance_tracking'] = $performanceTracking;
 
-        $curlHandle = curl_init('https://gateway.sms77.io/api/sms');
+        $curlHandle = curl_init('https://gateway.seven.io/api/sms');
         $options = [
             CURLOPT_HTTPHEADER => [
                 'Accept: application/json',
@@ -228,9 +209,8 @@ class sms77 extends PluginBase {
      * This event is fired by the administration panel to gather extra settings
      * available for a survey. These settings override the global settings.
      * The plugin should return setting meta data.
-     * @return void
      */
-    public function beforeSurveySettings() {
+    public function beforeSurveySettings(): void {
         $settings = $this->settings;
         $surveyId = $this->event->get('survey');
 
@@ -262,9 +242,8 @@ class sms77 extends PluginBase {
 
     /**
      * This event is fired when survey settings is saved.
-     * @return void
      */
-    public function newSurveySettings() {
+    public function newSurveySettings(): void {
         foreach ($this->event->get('settings') as $k => $v) {
             if (!isset($v) && isset($this->settings[$k]['default']))
                 $v = $this->settings[$k]['default'];
