@@ -1,4 +1,4 @@
-![](https://www.seven.io/wp-content/uploads/Logo.svg "seven Logo")
+<img src="https://www.seven.io/wp-content/uploads/Logo.svg" width="250" />
 
 # Plugin for LimeSurvey
 This plugin adds the possibility to send SMS for survey invitations and reminders.
