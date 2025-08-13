@@ -5,7 +5,7 @@ class seven extends PluginBase {
     static protected $name = 'seven';
     protected $settings = [
         'apiKey' => [
-            'help' => 'Get yours @ https://app.seven.io/developer',
+            'help' => 'Get yours @ https://help.seven.io/en/articles/9582186-where-do-i-find-my-api-key',
             'htmlOptions' => ['required' => 'required'],
             'label' => 'API Key',
             'type' => 'password',
@@ -121,6 +121,7 @@ class seven extends PluginBase {
     /**
      * This function handles sending SMS messages
      * If it's an email invite, it doesn't interfere and keeps the settings as they are
+     * @noinspection PhpUnused
      */
     public function beforeTokenEmail(): void {
         $event = $this->getEvent();
@@ -209,6 +210,7 @@ class seven extends PluginBase {
      * This event is fired by the administration panel to gather extra settings
      * available for a survey. These settings override the global settings.
      * The plugin should return setting meta data.
+     * @noinspection PhpUnused
      */
     public function beforeSurveySettings(): void {
         $settings = $this->settings;
@@ -242,6 +244,7 @@ class seven extends PluginBase {
 
     /**
      * This event is fired when survey settings is saved.
+     * @noinspection PhpUnused
      */
     public function newSurveySettings(): void {
         foreach ($this->event->get('settings') as $k => $v) {

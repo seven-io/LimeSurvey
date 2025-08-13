@@ -4,7 +4,7 @@
         <name>seven</name>
         <type>plugin</type>
         <creationDate>2021-12-16</creationDate>
-        <lastUpdate>2023-02-20</lastUpdate>
+        <lastUpdate>2025-08-13</lastUpdate>
         <author>seven communications GmbH &amp; Co. KG</author>
         <authorUrl>https://www.seven.io/</authorUrl>
         <authorEmail>support@seven.io</authorEmail>
@@ -15,6 +15,7 @@
     </metadata>
     <compatibility>
         <version>5.0</version>
+        <version>6.0</version>
     </compatibility>
     <updaters>
         <updater disabled="disabled">
