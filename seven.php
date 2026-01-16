@@ -154,7 +154,6 @@ class seven extends PluginBase {
 
         $res = $this->sms(compact('text', 'to'));
         if (100 !== $res) {
-            echo $this->gT('SMS not sent. Please contact an administrator.');
             exit;
         }
     }
@@ -183,7 +182,7 @@ class seven extends PluginBase {
         if (!empty($label)) $payload['label'] = $label;
 
         $performanceTracking = $this->get('performance_tracking');
-        if (!empty($label)) $payload['performance_tracking'] = $performanceTracking;
+        if (!empty($performanceTracking)) $payload['performance_tracking'] = $performanceTracking;
 
         $curlHandle = curl_init('https://gateway.seven.io/api/sms');
         $options = [
@@ -200,10 +199,33 @@ class seven extends PluginBase {
         curl_setopt_array($curlHandle, $options);
 
         $response = curl_exec($curlHandle);
+        $httpCode = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($curlHandle);
 
         curl_close($curlHandle);
 
-        return (int)(is_bool($response) ? $response : json_decode($response)->success);
+        if ($curlError) {
+            echo $this->gT('SMS not sent: Network error - ') . htmlspecialchars($curlError);
+            return 0;
+        }
+
+        if ($httpCode !== 200) {
+            echo $this->gT('SMS not sent: API returned HTTP ') . $httpCode;
+            return 0;
+        }
+
+        $decoded = json_decode($response);
+        if (!$decoded || !isset($decoded->success)) {
+            echo $this->gT('SMS not sent: Invalid API response');
+            return 0;
+        }
+
+        $successCode = (int)$decoded->success;
+        if ($successCode !== 100) {
+            echo $this->gT('SMS not sent: API error code ') . $successCode;
+        }
+
+        return $successCode;
     }
 
     /**

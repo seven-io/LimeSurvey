@@ -1,77 +1,84 @@
 <img src="https://www.seven.io/wp-content/uploads/Logo.svg" width="250" />
 
-# Plugin for LimeSurvey
-This plugin adds the possibility to send SMS for survey invitations and reminders.
+# SMS Plugin for LimeSurvey
 
-## Prerequisites
-- Limesurvey CE - only tested with version 5.x
-- An [API Key](https://help.seven.io/en/api-key-access) from [seven](https://www.seven.io)
+Send SMS invitations and reminders to survey participants via [seven.io](https://www.seven.io).
+
+## How it works
+
+The plugin hooks into LimeSurvey's invitation and reminder system. When you send invitations or reminders, SMS messages are automatically sent to participants with a mobile phone number.
+
+- ✅ No cron jobs required
+- ✅ No server access needed after installation
+- ✅ Fully managed via web interface
+
+## Requirements
+
+- LimeSurvey CE 5.x or 6.x
+- [seven.io](https://www.seven.io) account with API key and credit balance
+- File system access for initial installation (FTP/SFTP)
 
 ## Installation
 
 1. Download the [latest release](https://github.com/seven-io/LimeSurvey/releases/latest/download/seven-limesurvey-latest.zip)
-2. Extract the archive to `/path/to/limesurvey/plugins`
-3. Login to the administration, go to `Configuration -> Plugins` and activate the plugin
-4. Click on `seven`, go to `Settings`, configure it to your needs and click `Save`
+2. Extract to `/path/to/limesurvey/plugins`
+3. Go to `Configuration` → `Plugins` and activate **seven**
+4. Enter your API key in the plugin settings
 
-## Usage
+## Setup
 
-### Send SMS invitation to survey participants
-1. Create a survey and set it to closed-access mode.
-2. Add a participant to the survey.
-3. Go to `Survey participants`, click `Manage attributes` and add a field for the mobile phone number.
-4. Click the pencil icon in the participant entry row and set a mobile phone in the `Additional attributes` tab.
-5. Go to `Simple plugins -> seven`.
-6. Make sure that the attribute field matches the name of the mobile phone field which you just created.
-7. Make sure that the event type `Invitation` is added.
-8. Go to `Survey participants` and click `Generate tokens`.
-9. Click `Invitations & reminders` and choose or `Send email invitation` from the dropdown.
-10. Edit the form and click `Send invitations`.
+### 1. Create a mobile phone attribute
 
-### Send SMS reminder to survey participants
-The procedure for sending SMS reminders is pretty much the same as for invitations.
-You just need to tweak these two steps:
-For step 7 make sure that the event type `Reminder` is added.
-For step 9 choose `Send email reminder` instead.
+Go to your survey → `Participants` → `Manage attributes` → add a new attribute (e.g. `mobile_number`).
 
+### 2. Configure the plugin
 
-## Configuration Options
+Go to your survey → `Simple plugins` (bottom of sidebar) → **seven**:
 
-### API Key
-An API key from seven required for sending - create one in your [developer dashboard](https://app.seven.io/developer)
+| Setting | Description |
+|---------|-------------|
+| **API Key** | Your seven.io API key ([get one here](https://app.seven.io/developer)) |
+| **Attribute Field** | Name of your mobile phone attribute (e.g. `attribute_1`) |
+| **Event Types** | Select `Invitation` and/or `Reminder` |
+| **Send Email** | Enable to send both SMS and email |
+| **From** | Sender name (max 11 alphanumeric or 16 numeric characters) |
+| **SMS Text** | Message template with placeholders |
 
-### Attribute Field
-Defines the attribute field where the mobile phone number is stored
+### 3. Add participants
 
-### Send Email
-If enabled, both SMS and email gets sent
+Add participants with their mobile phone number in the attribute field. Use `NA` or leave empty to skip SMS for specific participants.
 
-### Event Types
-Defines on which event type(s) the plugin is activated.
-Multiple entries are allowed.
-The following events are implemented:
-- Invitation
-- Reminder
+### 4. Send invitations/reminders
 
-### Flash
-Depending on the phone, flash SMS get displayed directly in the display and won't get saved
+Go to `Participants` → `Invite & remind` → select invitation or reminder type.
 
-### SMS Text
-Define the SMS text to be sent. 
-You can make use of the following placeholders which get replaced with its corresponding value or an empty string:
+## Placeholders
 
-{EMAIL} => the participant's email address
+Use these in your SMS text:
 
-{FIRSTNAME} => the participant's first name
+| Placeholder | Value |
+|-------------|-------|
+| `{FIRSTNAME}` | Participant's first name |
+| `{LASTNAME}` | Participant's last name |
+| `{EMAIL}` | Participant's email |
+| `{SURVEY_URL}` | Survey link with access code |
 
-{LASTNAME} => the participant's last name
+## FAQ
 
-{SURVEY_URL} => the survey URL
+**Do I need server access after installation?**
+No. Once installed, everything is configured via the LimeSurvey web interface.
 
+**Do I need cron jobs?**
+No. SMS are sent instantly when you use the invite/remind function.
 
+**What if a participant has no phone number?**
+Only email will be sent (if enabled). Set the attribute to `NA` or leave it empty.
+
+**Can I send only SMS without email?**
+Yes. Disable "Send Email" in the plugin settings.
 
 ## Support
 
-Need help? Feel free to [contact us](https://www.seven.io/en/company/contact/).
+Need help? [Contact us](https://www.seven.io/en/company/contact/)
 
 [![MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
